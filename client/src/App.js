@@ -15,7 +15,7 @@ function App() {
 
   useEffect(()=>{
     GetTodos();
-    console.log(todos);
+
   }, [])
 
   //axios?
@@ -26,6 +26,25 @@ function App() {
     .catch(err=>console.error("Error: ", err))
   }
 
+  const completeTodo = async id =>{
+    const data = await fetch(API_BASE+"/todo/complete/" + id)
+      .then(res=>res.json());
+
+    setTodos(todos => todos.map(task=>{
+        if(task._id===data._id){
+          task.complete = data.complete;
+        }
+        return todos;
+    }))
+
+  }
+
+  const deleteTodo = async id=>{
+    const data = await fetch(API_BASE+"/todo/delete/" + id, {method:"DELETE"})
+    .then(res=>res.json());
+
+    setTodos(todos=>todos.filter(todo=>todo._id!==data._id));
+  }
 
   return (
     <div className="App">
@@ -36,8 +55,7 @@ function App() {
 
               {
                 todos.map(task=>(
-
-                    <div className="todo">
+                    <div className={"todo "+(task.complete? "is-complete":"")} key={task._id} >
 
                         <div className="checkbox"> </div>
 
