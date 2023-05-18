@@ -50,10 +50,29 @@ app.delete('/todo/delete/:id', async(req, res)=>{
     try{
         const result = await Todo.findByIdAndDelete(req.params.id)
 
-        res.json(result);
+        res.send(`the todo item with id ${req.params.id} was succesfully deleted`);
+
     }catch(error){
         console.log(error);
     }
 });
+
+//modify the status on the task
+app.put('/todo/complete/:id', async(req,res)=>{
+    try{
+
+        const todo = await Todo.findById(req.params.id);
+
+        todo.complete = !todo.complete;//change the state
+
+        todo.save();
+        //res.json(todo);
+        res.send(`the todo item with id ${req.params.id} was succesfully updated to: ${todo.complete}`);
+
+    }catch(error){
+        console.log(error);
+    }
+})
+
 
 app.listen(3001, ()=>console.log("Server started on port 3001"))
