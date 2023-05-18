@@ -17,10 +17,31 @@ mongoose.connect(URI,{
     .then(()=>console.log("Conectado a DB cloud"))
     .catch(console.error);
 
+//brings the todo schema and json data
 app.get('/todos', async(req,res)=>{
-    const todos =  await Todo.find();
-
-    res.json(todos);
+    try{
+        const todos =  await Todo.find();
+        res.json(todos);
+    }catch(error){
+        console.log(error)
+    }
 })
+
+
+//add a new todo to the collection
+app.post('/todo/new', async (req,res)=>{
+    try{
+
+        const todo = await new Todo({
+            text: req.body.text
+
+        });
+
+        todo.save(todo);
+        res.send('New todo created at DB')
+    }catch(error){
+        console.log(error)
+    }
+});
 
 app.listen(3001, ()=>console.log("Server started on port 3001"))
