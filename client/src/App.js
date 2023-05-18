@@ -1,4 +1,32 @@
+
+
+import { useState, useEffect } from 'react';
+
+// const { API_BASE } = process.env;
+const API_BASE = "http://localhost:3001";
+
+
+
 function App() {
+
+  const [todos, setTodos] =useState([]);
+  const[popupActive, setpopupActive] = useState(false);
+  const[newtodo, setNewTodo]=useState("");
+
+  useEffect(()=>{
+    GetTodos();
+    console.log(todos);
+  }, [])
+
+  //axios?
+  const GetTodos = ()=>{
+    fetch(API_BASE + "/todos")
+    .then(res=>res.json())
+    .then(data=>setTodos(data))
+    .catch(err=>console.error("Error: ", err))
+  }
+
+
   return (
     <div className="App">
       <h1>Welcome, Andrés</h1>
@@ -6,19 +34,25 @@ function App() {
 
           <div className="todos">
 
-              <div className="todo">
+              {
+                todos.map(task=>(
 
-                  <div className="checkbox"> </div>
+                    <div className="todo">
 
-                  <div className="text">Get the bread</div>
+                        <div className="checkbox"> </div>
 
-                  <div className="delete-todo"> X </div>
+                        <div className="text">{task.text}</div>
 
-              </div>
+                        <div className="delete-todo"> X </div>
+
+                    </div>
+                )
+                )
+              }
 
 
 
-              <div className="todo is-complete">
+              {/* <div className="todo is-complete">
 
                   <div className="checkbox"> </div>
 
@@ -26,7 +60,7 @@ function App() {
 
                   <div className="delete-todo"> X </div>
 
-              </div>
+              </div> */}
 
 
 
