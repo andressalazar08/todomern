@@ -40,7 +40,19 @@ app.post('/todo/new', async (req,res)=>{
         todo.save(todo);
         res.send('New todo created at DB')
     }catch(error){
-        console.log(error)
+        console.log(error);
+    }
+});
+
+
+//delete a todo from the collection
+app.delete('/todo/delete/:id', async(req, res)=>{
+    try{
+        const result = await Todo.findByIdAndDelete(req.params.id)
+
+        res.json(result);
+    }catch(error){
+        console.log(error);
     }
 });
 
