@@ -61,7 +61,7 @@ function App() {
 
                         <div className="text">{task.text}</div>
 
-                        <div className="delete-todo"> X </div>
+                        <div className="delete-todo" > X </div>
 
                     </div>
                 )
@@ -70,7 +70,10 @@ function App() {
 
 
 
-              {/* <div className="todo is-complete">
+              {/*
+
+                onClick={(e)=> {e.stopPropagation(); deleteTodo(task._id)}}
+              <div className="todo is-complete">
 
                   <div className="checkbox"> </div>
 
